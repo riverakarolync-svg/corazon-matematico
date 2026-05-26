@@ -3,22 +3,54 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-# Configuración de la página
+# --------------------------------------------------
+# CONFIGURACIÓN GENERAL DE LA PÁGINA
+# --------------------------------------------------
+
 st.set_page_config(
     page_title="Corazón Matemático",
     page_icon="❤️",
     layout="centered"
 )
 
-# Título principal
+# --------------------------------------------------
+# TÍTULO Y MENSAJE PRINCIPAL
+# --------------------------------------------------
+
 st.title("❤️ Un corazón hecho con matemáticas")
+
+st.markdown(
+    """
+    <div style="
+        background-color: #fff0f5;
+        padding: 24px;
+        border-radius: 18px;
+        text-align: center;
+        border: 2px solid #ff4b6e;
+        margin-bottom: 25px;
+        box-shadow: 0px 4px 15px rgba(255, 75, 110, 0.18);
+    ">
+        <h2 style="color:#c9184a; margin-bottom: 12px;">
+            Tienes una ingenierita que te quiere ❤️
+        </h2>
+        <p style="font-size:20px; color:#590d22; margin: 0;">
+            Creé una función que demuestra mi cariño por ti.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 st.write(
     "Este regalo fue creado con una función matemática en Python. "
-    "El programa grafica punto por punto hasta formar un corazón en el plano cartesiano."
+    "El programa calcula puntos en el plano cartesiano y los va uniendo "
+    "hasta formar un corazón."
 )
 
-# Mostrar la función matemática
+# --------------------------------------------------
+# FUNCIÓN MATEMÁTICA
+# --------------------------------------------------
+
 st.subheader("Función matemática utilizada")
 
 st.write("El corazón se construye usando una función paramétrica:")
@@ -31,7 +63,7 @@ st.latex(r"""
 y(t)=13\cos(t)-5\cos(2t)-2\cos(3t)-\cos(4t)
 """)
 
-st.write("El parámetro usado es:")
+st.write("El parámetro utilizado es:")
 
 st.latex(r"""
 0 \leq t \leq 2\pi
@@ -43,30 +75,36 @@ st.write(
     "Al unir todos los puntos, aparece el corazón."
 )
 
-# Función matemática del corazón
+# --------------------------------------------------
+# CÁLCULO DEL CORAZÓN
+# --------------------------------------------------
+
 def corazon(t):
     x = 16 * np.sin(t)**3
     y = 13 * np.cos(t) - 5 * np.cos(2*t) - 2 * np.cos(3*t) - np.cos(4*t)
     return x, y
 
-# Crear valores de t
+# Valores del parámetro t
 t = np.linspace(0, 2*np.pi, 500)
 
-# Calcular puntos del corazón
+# Puntos del corazón
 x, y = corazon(t)
 
-# Espacio reservado para la gráfica
+# Espacio donde se actualizará la gráfica
 grafica = st.empty()
 
-# Función para dibujar el corazón poco a poco
+# --------------------------------------------------
+# FUNCIÓN PARA DIBUJAR EL CORAZÓN POCO A POCO
+# --------------------------------------------------
+
 def dibujar_corazon(hasta):
     fig, ax = plt.subplots(figsize=(6, 6))
 
-    # Límites del plano
+    # Límites del plano cartesiano
     ax.set_xlim(min(x)-2, max(x)+2)
     ax.set_ylim(min(y)-2, max(y)+2)
 
-    # Ejes cartesianos
+    # Ejes X y Y
     ax.axhline(0, color="black", linewidth=0.8)
     ax.axvline(0, color="black", linewidth=0.8)
 
@@ -76,66 +114,80 @@ def dibujar_corazon(hasta):
     # Etiquetas
     ax.set_xlabel("Eje X")
     ax.set_ylabel("Eje Y")
-    ax.set_title("El corazón se va formando...", fontsize=14)
 
-    # Mantener proporción correcta
+    # Título de la gráfica
+    ax.set_title("Una función que demuestra mi cariño por ti ❤️", fontsize=14)
+
+    # Mantener la proporción correcta
     ax.set_aspect("equal")
 
-    # Dibujar la parte del corazón hasta el frame actual
+    # Dibujar el corazón progresivamente
     ax.plot(x[:hasta], y[:hasta], color="red", linewidth=3)
 
-    # Punto que indica por dónde va el dibujo
+    # Punto que muestra por dónde va la animación
     if hasta > 1:
         ax.scatter(x[hasta-1], y[hasta-1], color="crimson", s=70)
 
     return fig
 
-# Mostrar plano inicial
+# --------------------------------------------------
+# ANIMACIÓN AUTOMÁTICA
+# --------------------------------------------------
+
+st.subheader("El corazón se va formando...")
+
+# Mostrar el plano inicial
 fig_inicial = dibujar_corazon(1)
 grafica.pyplot(fig_inicial)
 plt.close(fig_inicial)
 
-# Botón para iniciar animación
-if st.button("Dibujar el corazón ❤️"):
-    for i in range(1, len(t), 6):
-        fig = dibujar_corazon(i)
-        grafica.pyplot(fig)
-        plt.close(fig)
-        time.sleep(0.03)
-
-    # Mostrar corazón completo al final
-    fig, ax = plt.subplots(figsize=(6, 6))
-
-    ax.set_xlim(min(x)-2, max(x)+2)
-    ax.set_ylim(min(y)-2, max(y)+2)
-
-    ax.axhline(0, color="black", linewidth=0.8)
-    ax.axvline(0, color="black", linewidth=0.8)
-    ax.grid(True, linestyle="--", alpha=0.3)
-
-    ax.plot(x, y, color="red", linewidth=3)
-    ax.fill(x, y, color="pink", alpha=0.5)
-
-    ax.set_xlabel("Eje X")
-    ax.set_ylabel("Eje Y")
-    ax.set_title("Corazón matemático completo ❤️", fontsize=14)
-    ax.set_aspect("equal")
-
+# Animación automática al abrir la página
+for i in range(1, len(t), 6):
+    fig = dibujar_corazon(i)
     grafica.pyplot(fig)
     plt.close(fig)
+    time.sleep(0.03)
 
-    st.success("Listo ❤️ El corazón se formó usando matemáticas.")
+# --------------------------------------------------
+# CORAZÓN COMPLETO AL FINAL
+# --------------------------------------------------
 
-# Mostrar código
+fig, ax = plt.subplots(figsize=(6, 6))
+
+ax.set_xlim(min(x)-2, max(x)+2)
+ax.set_ylim(min(y)-2, max(y)+2)
+
+ax.axhline(0, color="black", linewidth=0.8)
+ax.axvline(0, color="black", linewidth=0.8)
+ax.grid(True, linestyle="--", alpha=0.3)
+
+ax.plot(x, y, color="red", linewidth=3)
+ax.fill(x, y, color="pink", alpha=0.55)
+
+ax.set_xlabel("Eje X")
+ax.set_ylabel("Eje Y")
+ax.set_title("Tienes una ingenierita que te quiere ❤️", fontsize=14)
+ax.set_aspect("equal")
+
+grafica.pyplot(fig)
+plt.close(fig)
+
+st.success("Listo ❤️ El corazón se formó usando matemáticas.")
+
+# --------------------------------------------------
+# EXPLICACIÓN DEL PROGRAMA
+# --------------------------------------------------
+
 st.subheader("Cómo funciona el programa")
 
 st.write(
-    "El programa primero crea muchos valores de **t** entre 0 y 2π. "
-    "Después calcula los valores de **x** y **y** con la función matemática. "
-    "Finalmente, va graficando esos puntos poco a poco para que parezca una animación."
+    "Primero se crea un conjunto de valores de **t** entre 0 y 2π. "
+    "Después, para cada valor de **t**, la función calcula una coordenada **x** "
+    "y una coordenada **y**. Finalmente, el programa grafica esos puntos en orden. "
+    "Por eso parece que el corazón se va dibujando como un video."
 )
 
-with st.expander("Ver el código principal"):
+with st.expander("Ver el código principal de la función"):
     st.code("""
 import numpy as np
 
@@ -148,4 +200,24 @@ t = np.linspace(0, 2*np.pi, 500)
 x, y = corazon(t)
 """, language="python")
 
-st.write("Hecho con Python, matemáticas y mucho cariño ❤️")
+# --------------------------------------------------
+# MENSAJE FINAL
+# --------------------------------------------------
+
+st.markdown(
+    """
+    <div style="
+        background-color: #ffe5ec;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin-top: 25px;
+        border: 1px solid #ff8fab;
+    ">
+        <h3 style="color:#c9184a;">
+            Porque hasta las matemáticas saben formar algo bonito para ti ❤️
+        </h3>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
