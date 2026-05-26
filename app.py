@@ -8,7 +8,7 @@ import time
 # --------------------------------------------------
 
 st.set_page_config(
-    page_title="Corazón Matemático",
+    page_title="Mi cariño en coordenadas",
     page_icon="❤️",
     layout="centered"
 )
@@ -17,7 +17,7 @@ st.set_page_config(
 # TÍTULO Y MENSAJE PRINCIPAL
 # --------------------------------------------------
 
-st.title("❤️ Un corazón hecho con matemáticas")
+st.title("❤️ Mi cariño en coordenadas")
 
 st.markdown(
     """
@@ -31,10 +31,10 @@ st.markdown(
         box-shadow: 0px 4px 15px rgba(255, 75, 110, 0.18);
     ">
         <h2 style="color:#c9184a; margin-bottom: 12px;">
-            Tienes una ingenierita que te quiere ❤️
+            Siempre encontraré la forma de demostrarte que te quiero ❤️
         </h2>
         <p style="font-size:20px; color:#590d22; margin: 0;">
-            Creé una función que demuestra mi cariño por ti.
+            Incluso si es tan complejo como una función, una gráfica o un código hecho solo para ti.
         </p>
     </div>
     """,
@@ -115,8 +115,8 @@ def dibujar_corazon(hasta):
     ax.set_xlabel("Eje X")
     ax.set_ylabel("Eje Y")
 
-    # Título de la gráfica
-    ax.set_title("Una función que demuestra mi cariño por ti ❤️", fontsize=14)
+    # Título de la gráfica mientras se dibuja
+    ax.set_title("Tienes una ingenierita que te quiere ❤️", fontsize=14)
 
     # Mantener la proporción correcta
     ax.set_aspect("equal")
@@ -166,7 +166,10 @@ ax.fill(x, y, color="pink", alpha=0.55)
 
 ax.set_xlabel("Eje X")
 ax.set_ylabel("Eje Y")
+
+# Título final arriba del corazón
 ax.set_title("Tienes una ingenierita que te quiere ❤️", fontsize=14)
+
 ax.set_aspect("equal")
 
 grafica.pyplot(fig)
